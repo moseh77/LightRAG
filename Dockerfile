@@ -83,7 +83,7 @@ ENV PATH=/app/.venv/bin:/root/.local/bin:$PATH
 
 # Install dependencies with uv sync (uses locked versions from uv.lock)
 # And ensure pip is available for runtime installs
-RUN --mount=type=cache,target=/root/.local/share/uv \
+RUN target=/root/.local/share/uv \
     uv sync --frozen --no-dev --extra api --extra offline --no-editable \
     && /app/.venv/bin/python -m ensurepip --upgrade
 
