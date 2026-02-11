@@ -40,7 +40,7 @@ COPY setup.py .
 COPY uv.lock .
 
 # Install base, API, and offline extras without the project to improve caching
-RUN --mount=type=cache,target=/root/.local/share/uv \
+RUN target=/root/.local/share/uv \
     uv sync --frozen --no-dev --extra api --extra offline --no-install-project --no-editable
 
 # Copy project sources after dependency layer
@@ -50,7 +50,7 @@ COPY lightrag/ ./lightrag/
 COPY --from=frontend-builder /app/lightrag/api/webui ./lightrag/api/webui
 
 # Sync project in non-editable mode and ensure pip is available for runtime installs
-RUN --mount=type=cache,target=/root/.local/share/uv \
+RUN target=/root/.local/share/uv \
     uv sync --frozen --no-dev --extra api --extra offline --no-editable \
     && /app/.venv/bin/python -m ensurepip --upgrade
 
